@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import entities.Candidate;
+
 public class Program {
 
 	public static void main(String[] args) {
@@ -20,7 +22,7 @@ public class Program {
 			
 			String line = br.readLine();
 			
-			Map<String, Integer> candidates = new HashMap<>();
+			Map<String, Candidate> candidates = new HashMap<>();
 			
 			while (line != null) {				
 				String[] fields = line.split(",");				
@@ -28,18 +30,17 @@ public class Program {
 				int votes = Integer.parseInt(fields[1]);
 				
 				if (candidates.containsKey(name)) {
-					int replace = candidates.get(name); // retorna a quantidade de votos anterior
-					candidates.replace(name, votes + replace);
-				}
-				
+					int replace = candidates.get(name).getVotes(); // retorna a quantidade de votos anterior
+					candidates.replace(name, new Candidate(name, replace + votes));
+				}				
 				else {
-					candidates.put(name, votes);
+					candidates.put(name, new Candidate(name, votes));
 				}
 				
 				line = br.readLine();
 			}
 			for (String candidate : candidates.keySet()) {
-				System.out.println(candidate + ": " + candidates.get(candidate));
+				System.out.println(candidate + ": " + candidates.get(candidate).getVotes());
 			}
 		}
 		catch (IOException e) {
